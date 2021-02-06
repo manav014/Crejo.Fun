@@ -149,8 +149,16 @@ public class MovieReviewTest {
                 .build();
         ReviewService.addReview(review);
 
-        List<Movie> topN = MovieService.topNMovies(3, "Biography");
+        review = Review.builder()
+                .user(userIds.get(1))
+                .movie(MovieService.getMovie("Dangal-2016").getId())
+                .score(7)
+                .build();
+        ReviewService.addReview(review);
 
+        List<Movie> topN = MovieService.topNMovies(2, "Biography");
+
+        assertEquals(2, topN.size());
         assertTrue(topN.stream().anyMatch(movie -> movie.getTitle().equals("Guru")));
         assertTrue(topN.stream().anyMatch(movie -> movie.getTitle().equals("Bhaag Milkha Bhaag")));
     }
@@ -181,6 +189,13 @@ public class MovieReviewTest {
                 .title("The Lunchbox")
                 .releaseYear(2013)
                 .genres(new HashSet<>(Arrays.asList("Drama", "Romance")))
+                .build();
+        MovieService.addMovie(movie);
+
+        movie = Movie.builder()
+                .title("Dangal")
+                .releaseYear(2016)
+                .genres(new HashSet<>(Arrays.asList("Action", "Biography", "Drama")))
                 .build();
         MovieService.addMovie(movie);
 
